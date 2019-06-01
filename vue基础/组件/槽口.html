@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>槽口</title>
+  </head>
+  <body>
+    <!-- 匿名槽口 -->
+    <!--    <div id="box">
+        <my-component>
+            <h1>内容区域</h1>
+        </my-component>
+    </div>
+    <template id="mycomponent">
+        <div>
+            <p>头部区域</p>
+            <slot>如果没有分发内容，则显示默认提示</slot>
+            <p>底部区域</p>
+        </div>
+    </template> -->
+    <!-- 具名槽口 -->
+    <div id="box">
+      <computer>
+        <div slot="movie">怦然心动</div>
+        <div slot="music">不染</div>
+        <div slot="tv">香蜜沉沉烬如霜</div>
+        <div slot="star">邓伦</divt>
+      </computer>
+    </div>
+    <template id="computer">
+      <div>
+        <slot name="movie">这儿插你的喜欢的电影</slot>
+        <slot name="music">这儿插你的喜欢的音乐</slot>
+        <slot name="tv">这儿插你的喜欢的电视剧</slot>
+        <slot name="star">这儿插你的喜欢的明星</slot>
+      </div>
+    </template>
+
+
+  </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script type="text/javascript">
+  <!-- 定义全局组件 -->
+  // 定义全局组件 
+  Vue.component('computer', {
+    template: "#computer"
+  })
+  var vm = new Vue({
+    el: '#box',
+    data: {
+
+    }
+
+  });
+</script>

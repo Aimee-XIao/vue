@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>局部组件</title>
+  </head>
+  <body>
+    <div id="box">
+      <test></test>
+
+    </div>
+    <template id="t">
+      <div>
+        <p>局部组建模板</p>
+        <ul>
+          <li>111</li>
+          <li>222</li>
+          <li>333</li>
+        </ul>
+        <div>{{msg + a}}</div>
+      </div>
+      
+    </template>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#box',
+      data: {},
+      // 局部组件的定义
+      components: { // 组件名称：{配置项}
+        'test': { // template: '<h1>标签</h1>'
+          template: '#t',
+          // 组件中的数据
+          data: function() {
+            return {
+              msg: 'hello',
+              a: 100
+            }
+          },
+        }
+      }
+    });
+  </script>
+</html>

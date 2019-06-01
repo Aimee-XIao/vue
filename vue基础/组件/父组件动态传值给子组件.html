@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>父组件动态传值给子组件</title>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model="parentMessage">
+        <my-component :message="parentMessage"></my-component>
+    </div>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script >
+Vue.component('my-component', {
+    props: ['message'],
+    template: '<div> 输入内容是：{{ message }} </div>'
+});
+var vm = new Vue({
+    el: '#app',
+    data: {
+        parentMessage: "",
+    }
+});
+</script>

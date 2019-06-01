@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>一级路由</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <!-- 
+		一级路由的配置：
+		1、引入 vue-router.js 库
+	 -->
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+    <style type="text/css">
+    li {
+        list-style-type: none;
+        display: inline-block;
+        margin: 20px 10px;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    .show {
+        width: 300px;
+        height: 200px;
+        background: #ccc;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <ul>
+            <li>
+                <router-link to='/home'>home</router-link>
+            </li>
+            <li>
+                <router-link to='/news'>news</router-link>
+            </li>
+            <li>
+                <router-link to='/hot'>hot</router-link>
+            </li>
+            <li>
+              <router-link to="/together">total</router-link>
+            </li>
+        </ul>
+        <div class="show">
+            <router-view></router-view>
+        </div>
+    </div>
+    <!-- 
+		使用路由去完成跳转，就不再使用 a 标签了；
+
+		使用<router-link></router-link>代替a便签
+
+		router-link：
+			在两对尖括号中添加文本；
+			to属性用来设置跳转url地址
+
+			to = 路由配置时，routes数组中的path信息，需要填写在此处
+
+		router-view:
+			<router-view></router-view>
+			用来占位
+
+	 -->
+</body>
+
+</html>
+<script>
+  // 路由分写方式
+     // 1. 定义（路由）组件。
+     // 可以从其他文件 import 进来
+     // 路由组件定义，路由组件可以是通过Vue.extend创建的构造函数，或者是一个组件配置对象
+     // 当为组件配置对象的时候，vue-router内部会自动调用Vue.extend创建构造函数的
+
+const Home = { template: '<h2>首页</h2>' }
+    // 上面的写法等价于下面这种写法const Home = Vue.extend({ template: '<h2>首页</h2>' })
+
+const News = { template: '<h2>新闻</h2>' }
+const Hot = { template: '<h2>热点</h2>' }
+
+     // 2. 定义路由
+     // 每个路由应该映射一个组件。 其中"component" 可以是通过 Vue.extend() 创建的组件构造器，或者，只是一个组件配置对象。
+ const routes = [
+     // 路径命名：‘/+小写单词’
+     {
+         path: '/home',
+         component: Home
+     },
+     {
+         path: '/news',
+         component: News
+     },
+     {
+         path: '/hot',
+         component: Hot
+     },
+ ]
+
+
+      // 3. 创建 router 实例，然后传 `routes` 配置
+const router = new VueRouter({
+  routes // （缩写）相当于 routes: routes
+})
+
+    // 4. 创建和挂载根实例。通过 router 配置参数注入路由， 从而让整个应用都有路由功能
+var vm = new Vue({
+    el: '#box',
+    data: {
+
+    },
+    router,
+    beforeCreate: function() {
+        // 通过注入路由器，我们可以在任何组件内通过 this.$router 访问路由器
+        this.$router.push('/hot');
+    },  
+    // 路由的合写方式
+//     router:new VueRouter({
+//     	// 路径信息：路径信息盛放在数组中
+//     	routes:[
+//     		{path:'/together', component:{
+//           template:'<h1>我是合写路由</h1>'
+//         }
+//         }
+//     	]
+//     
+//     })
+    
+});
+</script>
+
+   

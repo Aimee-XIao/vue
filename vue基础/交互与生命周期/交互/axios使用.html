@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>axios交互练习</title>
+  </head>
+  <body>
+    <div id="box">
+      <button @click="getNews">获取新闻列表</button>
+      <ol>
+        <li v-for="item in list" style="display: flex;justify-content: flex-start;align-items: center;margin: 10px;">
+          <img :src="item.author_avatar" alt="">
+          <p>{{item.title}}</p>
+        </li>
+      </ol>
+      <p>{{ message | filterA('arg1', arg2) }}</p>
+
+    </div>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- 新闻列表：https://unidemo.dcloud.net.cn/api/news -->
+  <script>
+    new Vue({
+      el: '#box',
+      data: {
+        list: []
+      },
+      methods: {
+        getNews() {
+          const that = this
+          axios.get('https://unidemo.dcloud.net.cn/api/news', {
+            // 传递参数
+            params: {
+              name: 'wang',
+              age: 24
+            }
+
+          }).then(function(res) {
+            that.list = res.data
+          }).catch(function(err) {
+            console.log(err)
+          })
+        }
+
+      }
+    })
+  </script>
+
+</html>

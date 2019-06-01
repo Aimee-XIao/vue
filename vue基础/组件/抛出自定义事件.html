@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+</head>
+<body>
+    <div id="box">
+        <parent></parent>
+    </div>
+
+    <template id="par">
+        <div>
+            <h1>parent~~~{{ parentMsg }}{{ message }}</h1>
+            <child1 @change='getVal' ></child1>
+            <!-- 接收事件监听处，方法名后面是不写小括号的 -->
+        </div>
+    </template>
+
+    <template id="c1">
+        <div @click='fn'>
+            点击这里看效果
+            <p>child1***{{ cMsg1 }}</p>
+        </div>
+    </template>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script>
+     new Vue({
+        el: '#box',
+        data: {
+
+        },
+        components: {
+            'parent': {
+                template: '#par',
+                data: function () {
+                    // body...
+                    return {
+                        parentMsg: '父组件信息',
+                        message: ''
+                    }
+                },
+                methods: {
+                    getVal: function (val) {
+                        // val: 代表传递过来的值
+                        console.log('val: '+val);
+                        this.message = val;
+                        console.log('接收的信息为: '+this.message);
+                    }
+                },
+                components: {
+                    'child1': {
+                        template: '#c1',
+                        data: function () {
+                            // body...
+                            return {
+                                cMsg1: ' child1 要传递的信息'
+                            }
+                        },
+                        methods: {
+                            fn: function () {
+                                // body...
+                                // console.log(1);
+                                // 自定事件
+                                // $emit('自定义事件名称'，传递的值)
+                                this.$emit('change', this.cMsg1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+

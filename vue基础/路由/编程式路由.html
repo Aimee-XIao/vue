@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>编程式路由</title>
+    <style>
+    button {
+     border: 0;
+     padding: 8px 14px;
+     background: #49A8D6;
+     color: #fff;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!--编程时导航-->
+        <button @click="goHome">去首页</button>
+        <button @click="goList">去列表</button>
+        <router-view></router-view>
+    </div>
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.js"></script>
+<script>
+  //1. 定义路由所需模块
+const home = {
+    template: '<div>home</div>'
+};
+const list = {
+    template: '<div>list</div>'
+}
+// 2.定义路由
+const routes = [
+    { path: '/home',name:'home', component: home },
+    { path: '/list',name:'list', component: list }
+]
+// 3.创建路由实例
+const router = new VueRouter({
+    routes: routes,
+});
+//默认加载第一个路径
+router.push("/home");
+ new Vue({
+    el: "#app",
+    methods: {
+        //编程时导航
+        goHome() {
+            //页面跳转，push是增加到历史管理
+            // 1、字符串形式
+            // this.$router.push('home');
+            // 2、对象形式
+            // this.$router.push({ path: 'home' });
+            // 3、命名的路由
+            this.$router.push({ name: 'home'})
+            // 4、带查询参数
+            this.$router.push({ path: 'home', query: { plan: 'private' }})
+            // 传递参数的如何接收
+            // console.log("传递过来的参数 = " + this.$route.query.plan)
+
+            //go表示前进后退
+            // this.$router.go(1)
+                
+        },
+        goList() {
+            this.$router.push('list')
+            //将当前历史管理替换成list
+            //this.$router.replace('list')
+        }
+    },
+    // 会在实例中提供两个属性this.$route(属性)，this.$router(方法);
+    router,
+
+
+})
+</script>
+
+</html>

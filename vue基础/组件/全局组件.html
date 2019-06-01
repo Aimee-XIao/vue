@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全局组件</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+<body>
+    <div id="box">
+      <test></test>
+
+    </div>
+
+    <!-- 1、定义模板 
+        使用template标签，在box容器外定义模板
+        为template标签，添加id
+        设置template：‘selector’
+    -->
+    <template id="t">
+        <div>
+            <!-- 模板中添加事件 -->
+            <ul>
+                <li>12312323</li>
+                <li>12312323</li>
+                <li>12312323</li>
+            </ul>
+            <h1>组件组件</h1>
+            
+        </div>
+    </template>
+    
+</body>
+</html>
+<script>
+    // 2、全局组件定义
+
+    // 组件的封装
+    // Vue.component('name',{template:'html结构'})
+    // 如果想在html结构中，写入多个标签，外层必须包裹容器
+
+    Vue.component('test', {
+        // 模板
+        // template: '<div><h1>test</h1><p>全局组件</p></div>'
+        template: '#t',
+    });
+
+    var vm = new Vue({
+        el: '#box',
+        data: {
+
+        }
+    });
+
+
+</script>

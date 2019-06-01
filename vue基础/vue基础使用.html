@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+     <style type="text/css">
+    	
+      .textColor {
+        color: red;
+      }
+      .textSize {
+        font-size: 14px;
+      }
+      ul {
+        width: 200px;
+        height: 40px;
+        list-style: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      li {
+        flex: 1;
+        background-color: beige;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+      }
+      .bg {
+        background-color: palevioletred;
+      }
+      .check {
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background-color: beige;
+      }
+    </style>
+	</head>
+	<body>
+    <!-- 第二步，创建view视图 -->
+    <div id="box">
+      <!-- 插值表达式：双大括号法 -->
+      <p>{{msg}}</p>
+      <div>
+        <h1>v-if与v-else、v-show</h1>
+        <button @click="toggle">toggle</button>
+        <div v-if="show" style="width: 50px;height: 50px; background-color: pink;border: 1px solid #ccc;">v-if</div>
+        <div v-else style="width: 50px;height: 50px; background-color: beige;border: 1px solid #ccc;">v-else</div>
+        <div v-show="show" style="width: 50px;height: 50px; background-color: pink;border: 1px solid #ccc;" >v-show</div>
+      </div>
+     <div>
+       <h1>v-on:事件绑定</h1>
+        <h3>{{num}}</h3>
+       <!-- 获取键盘中的keyCode -->
+       <p>获取keycode</p>
+       <input v-model="num" autofocus="autofocus" type="text" @keyup="keycode"> 
+       <!-- 获取键盘中的key -->
+       <p>获取key</p>
+       <input v-model="num" type="text" @keyup="key">
+       <!-- enter事件 -->
+       <!-- @keyup.keyCode='事件名' -->
+       <p>enter事件</p>
+       <input v-model="num" type="text" @keyup.enter="enter">
+       <p>keycode对应的值触发事件</p>
+       <input v-model="num"  type="text" @keyup.66="bbb">
+     </div>
+     <div>
+       <h1>v-bind事件</h1>
+       <div v-bind:class="{'textColor':isColor, 'textSize':isSize}">全写</div>
+       <div :class="{'textColor':!isColor, 'textSize':!isSize}">简写</div>
+     </div>
+     <div>
+       <h1>指令综合练习</h1>
+       <ul>
+         <li v-for="(item,index) in arr" @click="select(index)" :class="{'bg':isbg==index}">{{item}}</li>
+       </ul>
+       <div>
+         你选择了
+         <div class="check">{{text}}</div>
+       </div>
+     </div>
+    </div>
+	</body>
+  <!-- 第一步，引入vue.js库 -->
+  <!-- cdn引入vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <script>
+    // 第三步 创建Vue实例化对象
+    new Vue({
+      el:'#box', //el:'',选择器
+    	data:{ //数据源
+        msg:'Hello,这是Vue练习',
+        show:true,
+        num:0,
+        isColor:true,
+        isSize:true,
+        arr:['HTML','Javascript','CSS','Vue.js'],    
+        isbg:'',
+        text:'HTML'
+      },
+      //实例中,可以设置很多配置项
+      methods:{
+        toggle(){
+          this.show = !this.show
+        },
+        keycode(e){
+          console.log(e.keyCode)
+        },
+        key(e){
+          console.log(e.key)
+        },
+        enter(){
+          this.num = '此值变为enter'
+        },
+        bbb(){
+          console.log("bb")
+        },
+        select(index){
+          this.isbg = index
+          for (let i = 0; i < this.arr.length; i++) {
+          	if(index == i){
+              this.text = this.arr[i]
+            }
+          }
+        }
+      }
+    })
+   
+  </script>
+</html>

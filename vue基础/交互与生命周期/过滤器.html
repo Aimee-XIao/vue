@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>实例#app</p>
+      <!-- 显示年月日 -->
+      <div>
+        {{ message | formatTime('YMD')}}
+      </div>
+      <!-- 显示年月日 时间 -->
+      <div>
+        {{ message | formatTime('YMDHMS')}}
+      </div>
+      <!-- 显示时间 -->
+      <div>
+        {{ message | formatTime('HMS')}}
+      </div>
+      <!-- 显示年月 -->
+      <div>
+        {{ message | formatTime('YM')}}
+      </div>
+    </div>
+    <div id="box">
+      <p>实例#box</p>
+      <!-- 显示年月日 -->
+      <div>
+        {{ messages | formatTime('YMD')}}
+      </div>
+      <!-- 显示年月日 时间 -->
+      <div>
+        {{ messages | formatTime('YMDHMS')}}
+      </div>
+      <div>
+        {{ text | capitalize}}
+      </div>
+    </div>
+    <div id="wang">
+      <p>实例#wang</p>
+      <!-- 首字母大写 -->
+      <input type="text" v-model="text">
+      <div>
+        {{ text | capitalize}}
+      </div>
+    </div>
+  </body>
+  <script>
+    //元素的补零计算
+    function addZero(val) {
+      if (val < 10) {
+        return "0" + val;
+      } else {
+        return val;
+      }
+    };
+    // 全局过滤器      
+    //实现vue中的过滤器功能  先定义过滤器 在使用        value是过滤器前面的值，type是过滤器中定义的字段
+    Vue.filter("formatTime", function(value, type) {
+      var dataTime = "";
+      var year = value.getFullYear();
+      var month = addZero(value.getMonth() + 1);
+      var day = addZero(value.getDate());
+      var hour = addZero(value.getHours());
+      var minute = addZero(value.getMinutes());
+      var second = addZero(value.getSeconds());
+      if (type == "YMD") {
+        dataTime = year + "-" + month + "-" + day;
+      } else if (type == "YMDHMS") {
+        dataTime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
+      } else if (type == "HMS") {
+        dataTime = hour + ":" + minute + ":" + second;
+      } else if (type == "YM") {
+        dataTime = year + "-" + month;
+      }
+      return dataTime; //将格式化后的字符串输出到前端显示
+    });
+    var app = new Vue({
+      el: '#app',
+      computed: {
+        message() {
+          console.log("当前时间", new Date())
+          return new Date()
+        }
+      }
+    });
+    var app = new Vue({
+      el: '#box',
+       data:{
+        text:'wang'
+      },
+      computed: {
+        messages() {
+          console.log("当前时间", new Date())
+          return new Date()
+        }
+      }
+    });
+    var app = new Vue({
+      el: '#wang',
+      data:{
+        text:''
+      },
+      filters: {
+        capitalize: function(value) {
+          if (!value) return ''
+          value = value.toString()
+          return value.charAt(0).toUpperCase() + value.slice(1)
+        }
+      }
+    });
+  </script>
+</html>

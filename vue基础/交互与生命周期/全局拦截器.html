@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>全局拦截器</title>
+     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ msg }}</h1>
+        <button @click="post"> post方法 </button>
+    </div>
+</body>
+
+</html>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg: "hello",
+        },
+        mounted: function () {
+            // 生命周期函数
+            // mounted：组件被挂载的时候调用
+            // 1、拦截请求
+            axios.interceptors.request.use(function (config) {
+                // 请求之前可以处理一些操作
+                // 1、可以在这里添加一些 loading动画
+                // 2、为所有的请求添加一些共用的部分，比如接口前面的配置都是一样的，这里可以把相同的抽离出来，在这里统一添加
+                console.log(" 请求马上要发送！");
+                return config;
+            }, function (error) {
+                // 请求错误之前可以处理的操作
+                return Promise.reject(error);
+            });
+            axios.interceptors.response.use(function (response) {
+                //返回响应数据做一些操作
+                //1、可以在对要返回的数据做一些处理操作
+                console.log(" 将要返回我们请求的数据了！");
+                return response;
+            }, function (error) {
+                //响应错误的时候做一些操作
+                return Promise.reject(error);
+            });
+        },
+        methods: {
+            post() {
+                axios.get('https://unidemo.dcloud.net.cn/api/news', {
+                    params:{
+                      userId: "01",
+                      userName: "MT"
+                    }
+                }).then( //仍然支持promise语法
+                        res => {
+                            // 这里我们把返回值赋值给msg显示到页面
+                            this.msg = res.data;
+                        }).catch(err => {
+                            // 没有成功获得数据的时候，把错误打印出来
+                            console.log(err)
+                        })
+            }
+        }
+    });
+</script>
